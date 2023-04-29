@@ -1,5 +1,18 @@
 
 
+import wikipedia
+#wikipedia.set_lang("es")
+#busqueda = "Oso panda"
+#try:
+#    a = wikipedia.summary(wikipedia.search(busqueda)[0])
+#except wikipedia.exceptions.DisambiguationError as f:
+#    lista = f.options[0]
+#    print(lista)
+#    #a = wikipedia.summary(lista)
+#a = wikipedia.page("Oso panda")
+#print(a.title, a.url, a.images[0])
+#
+
 import funciones
 
 def leerArchivo():
