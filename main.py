@@ -49,8 +49,8 @@ def ESAgregarAnimales(pLista):
 def ESCrearExpediente(pLista):
     funciones.crearExpediente(pLista)
 
+def ESRegistrarAnotaciones(pAnimales):
 
-def ESRegistrarAnotaciones(animales):
     """
     Funcionalidad: Muestra interfaz para que el usuario pueda registrar anotaciones para un animal
     Entradas:
@@ -59,22 +59,31 @@ def ESRegistrarAnotaciones(animales):
     -animales(list): Matriz de animales registrados ahora con la nueva anotación
     """
     while True:
-        for indice, animal in enumerate(animales):
+        for indice, animal in enumerate(pAnimales):
             print(f"{indice+1}. {animal[0]}")
         try:
             eleccion = int(input("Escoja en qué animal desea registrar una nueva anotación: "))-1
-            anotacion = input(f"Ingrese la nueva anotación para {animales[eleccion][0]}:\n")
-            animales[eleccion] = funciones.registrarAnotacion(animales[eleccion], anotacion)
+            anotacion = input(f"Ingrese la nueva anotación para {pAnimales[eleccion][0]}:\n")
+            pAnimales[eleccion] = funciones.registrarAnotacion(pAnimales[eleccion], anotacion)
             print("\nAnotaciones Registradas\n")
-            for indice, anotacion in enumerate(animales[eleccion][-1]): # Se asume que solo se necesita mostrar las anotaciones del animal relevante (basado en la elección del usuario)
+            for indice, anotacion in enumerate(pAnimales[eleccion][-1]): # Se asume que solo se necesita mostrar las anotaciones del animal relevante (basado en la elección del usuario)
                 print(f"{indice+1} {anotacion}")
             if not validarBin(input("Desea registrar una nueva anotación?\n1. Sí\n2. No\nOpción: ")):
                 break
         except ValueError:
-            print(f"Opción inválida ingrese un número del 1 al {len(animales)}")
+            print(f"Opción inválida ingrese un número del 1 al {len(pAnimales)}")
         except IndexError:
-            print(f"Opción inválida ingrese un número del 1 al {len(animales)}")
-    return animales
+            print(f"Opción inválida ingrese un número del 1 al {len(pAnimales)}")
+    return pAnimales
+
+def ESExportarDB(pAnimales):
+    """
+    Funcionalidad: Muestra interfaz para que el usuario pueda registrar anotaciones para un animal
+    Entradas:
+    -animales(list): Matriz de animales registrados
+    Salidas:
+    -animales(list): Matriz de animales registrados ahora con la nueva anotación
+    """
 
 def menu(pMatriz):
     """
@@ -100,7 +109,7 @@ def menu(pMatriz):
             try:
                 seguir=False
                 opcion = int(opcion)
-                opciones = [ESAgregarAnimales,ESCrearExpediente,ESRegistrarAnotaciones,exit] #Registrar nuevas funcionalidades acá
+                opciones = [ESAgregarAnimales ,ESCrearExpediente, ESRegistrarAnotaciones,..., ESExportarDB, exit] #Registrar nuevas funcionalidades acá
                 #print(pMatriz)
                 pMatriz = opciones[opcion-1](pMatriz)
             except IndexError:
