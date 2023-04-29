@@ -1,7 +1,13 @@
-#import wikipedia
-#wikipedia.set_lang("es")
-#busqueda = "Oso panda"
-#a = wikipedia.summary(wikipedia.search(busqueda)[0])
-#
-#print(a)
-url = "https://es.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exsentences=8&exlimit=2&formatversion=2&origin=*&titles=Ailuropoda%20melanoleuca
+import wikipedia
+import re
+import html
+
+wikipedia.set_lang("es")
+busqueda = "zorro gris patagónico"
+a = wikipedia.page("zorro gris patagónico")
+b=re.sub(r"\[\d*\]","",wikipedia.summary("zorro gris patagónico"))
+b.replace("\u200b","")
+lista=["zorro gris patagónico",a.title, a.url,b]
+
+print(lista)
+

@@ -1,6 +1,16 @@
 
 
 import funciones
+
+def leerArchivo():
+    referencia = open("test.txt","r")
+    print("->Imprime todo el archivo...")
+    lista = referencia.readlines()
+    lista=[elemento.replace("\n", "")for elemento in lista]
+    referencia.close()
+    return lista
+
+
 def validarBin(pEntrada):
     """
     Funcionalidad: Valida una respuesta de si o no
@@ -17,6 +27,15 @@ def validarBin(pEntrada):
                 pEntrada = input("Entrada incorrecta se espera un 1 o 2, vuelva a intentar:\n1. Sí\n2. No\nOpción: ")
         except ValueError:
             pEntrada = input("Entrada incorrecta se espera un 1 o 2, vuelva a intentar:\n1. Sí\n2. No\nOpción: ")
+
+def ESAgregarAnimales(pLista):
+    pNumero=input("Ingrese la cantidad de animales que desea añadir a su zoologico: ")
+    lista=funciones.agregarAnimales(leerArchivo(),int(pNumero))
+    return lista
+
+def ESCrearExpediente(pLista):
+    funciones.crearExpediente(pLista)
+
 
 def ESRegistrarAnotaciones(animales):
     """
@@ -54,11 +73,12 @@ def menu(pMatriz):
     while True:
         print(
             "\n"
-            "1. Crear expediente\n"
-            "2. Registrar anotaciones\n"
-            "3. Apartar animal\n"
-            "4. Exportar base de datos\n"
-            "5. Mostrar base de datos"
+            "1. Agregar animales\n"
+            "2. Crear expediente\n"
+            "3. Registrar anotaciones\n"
+            "4. Apartar animal\n"
+            "5. Exportar base de datos\n"
+            "6. Mostrar base de datos"
         )
         
         opcion= input("Ingrese el número de su opción a elegir: ")
@@ -67,7 +87,7 @@ def menu(pMatriz):
             try:
                 seguir=False
                 opcion = int(opcion)
-                opciones = [...,ESRegistrarAnotaciones,exit] #Registrar nuevas funcionalidades acá
+                opciones = [ESAgregarAnimales,ESCrearExpediente,ESRegistrarAnotaciones,exit] #Registrar nuevas funcionalidades acá
                 #print(pMatriz)
                 pMatriz = opciones[opcion-1](pMatriz)
             except IndexError:
