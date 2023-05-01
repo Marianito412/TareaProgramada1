@@ -1,12 +1,8 @@
 import random
 import wikipedia
-<<<<<<< Updated upstream
-
-=======
 import archivos
 import re
 from bs4 import BeautifulSoup
->>>>>>> Stashed changes
 
 def agregarAnimales(pLista,pNumero):
     animales=random.choices(pLista,k=pNumero)
@@ -25,24 +21,14 @@ def agregarAnimales(pLista,pNumero):
 
 def crearExpediente(pLista,opcion):
     wikipedia.set_lang("es")
-<<<<<<< Updated upstream
-    for i in pLista:
-        busqueda = i
-        a = wikipedia.summary(wikipedia.search(busqueda)[0])
-        print(a)
-        print("------------------")
-        print(" ")
-    
-=======
-    busqueda = pLista[opcion]
-    print(busqueda)
-    a = wikipedia.page(busqueda)
-    b=re.sub(r"\[\d*\]","",wikipedia.summary(busqueda))
+    busqueda=wikipedia.search(pLista[opcion])[0]
+    a = wikipedia.page(busqueda,auto_suggest=False)
+    b=re.sub(r"\[\d*\]","",a.summary)
     b=b.replace("\u200b", "").replace("\n","")
-    lista=[pLista[opcion],a.title, a.url,b]
-    pLista[opcion]=lista
-    return pLista
->>>>>>> Stashed changes
+    anotaciones=[]
+    listaAnimal=[pLista[opcion],a.title, a.url,b,anotaciones]
+    pLista[opcion]=listaAnimal
+    return listaAnimal,pLista
 
 def registrarAnotacion(pAnimal, pAnotacion):
     """
@@ -56,4 +42,27 @@ def registrarAnotacion(pAnimal, pAnotacion):
     pAnimal[-1].append(pAnotacion)
     return pAnimal
 
-    
+def crearTag(pEtiqueta, pContenido, pAtributo=""):
+    """
+    Funcionalidad: Crea un string con formato xml válido
+    Entradas:
+    -pEtiqueta(str): El nombre de la etiqueta XML
+    -pContenido(str): El contenido de esa etiqueta
+    -pAtributo(str): Cualquier atributo deseado
+    """
+    return f"<{pEtiqueta} {pAtributo}>\n\t{pContenido}\n</{pEtiqueta}>"
+
+def generarXML(pAnimales):
+    xml = ""
+    for animal in pAnimales:
+        infoAnimal = ""
+        atributos = ["Nombre", "Título", "URL", "Resumen"]
+        for atributo, valor in zip(atributos, animal):
+            infoAnimal+=crearTag(atributo, valor)
+        xml += crearTag("Animal", infoAnimal, pAtributo=f"Nombre = '{animal[0]}'")
+    return xml
+        
+if __name__=="__main__":
+    print(crearTag("book", crearTag("title", "Cool", pAtributo="isbn ='123123'")+"\n"+crearTag("author", "Me")))
+
+archivos.guardarXML("test2", generarXML([["Oso Polar", "Titulo", "URL", "Resumen", []], ["Jirafa Reticulada", "Titulo", "URL","Resumen", []]]))
