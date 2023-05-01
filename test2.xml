@@ -1,0 +1,21 @@
+<Animal Nombre = 'Oso Polar'>
+	<Nombre >
+	Oso Polar
+</Nombre><Título >
+	Titulo
+</Título><URL >
+	URL
+</URL><Resumen >
+	Resumen
+</Resumen>
+</Animal><Animal Nombre = 'Jirafa Reticulada'>
+	<Nombre >
+	Jirafa Reticulada
+</Nombre><Título >
+	Titulo
+</Título><URL >
+	URL
+</URL><Resumen >
+	Resumen
+</Resumen>
+</Animal>

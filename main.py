@@ -16,7 +16,7 @@ import wikipedia
 import funciones
 
 def leerArchivo():
-    referencia = open("test.txt","r")
+    referencia = open("test1.txt","r")
     print("->Imprime todo el archivo...")
     lista = referencia.readlines()
     lista=[elemento.replace("\n", "")for elemento in lista]
@@ -47,7 +47,22 @@ def ESAgregarAnimales(pLista):
     return lista
 
 def ESCrearExpediente(pLista):
-    funciones.crearExpediente(pLista)
+    i=0
+    num=1
+    while i<len(pLista):
+        print (f"{num}. {pLista[i]}")
+        i+=1
+        num+=1
+    opcion=input("Ingrese el numero de animal a generar el expediente")
+    lista=funciones.crearExpediente(pLista,int(opcion)-1)
+    print(f"\n"
+            "Nombre: {lista[1]} \n"
+            "2. Crear expediente\n"
+            "3. Registrar anotaciones\n"
+            "4. Apartar animal\n"
+            "5. Exportar base de datos\n"
+            "6. Mostrar base de datos"
+        )
 
 
 def ESRegistrarAnotaciones(animales):
@@ -76,13 +91,14 @@ def ESRegistrarAnotaciones(animales):
             print(f"Opción inválida ingrese un número del 1 al {len(animales)}")
     return animales
 
-def menu(pMatriz):
+def menu():
     """
     Funcionalidad: Muestra menú principal
     Entradas:
     -pMatriz(list): La matriz a analizar
     Salidas:NA
     """
+    lista=[]
     while True:
         print(
             "\n"
@@ -100,6 +116,7 @@ def menu(pMatriz):
             try:
                 seguir=False
                 opcion = int(opcion)
+<<<<<<< Updated upstream
                 opciones = [ESAgregarAnimales,ESCrearExpediente,ESRegistrarAnotaciones,exit] #Registrar nuevas funcionalidades acá
                 #print(pMatriz)
                 pMatriz = opciones[opcion-1](pMatriz)
@@ -107,8 +124,19 @@ def menu(pMatriz):
                 print("La opción indicada no es correcta, debe de ser un número del 1 al 5")
                 opcion= input("Ingrese su opcion otra vez: ")
                 seguir=True
+=======
+                opciones = [ESAgregarAnimales ,ESCrearExpediente, ESRegistrarAnotaciones,..., ESExportarDB, exit] #Registrar nuevas funcionalidades acá
+                lista = opciones[opcion-1](lista)
+                print("hols")
+                print(lista)
+##            except IndexError:
+##                print("inndex")
+##                print("La opción indicada no es correcta, debe de ser un número del 1 al 5")
+##                opcion= input("Ingrese su opcion otra vez: ")
+##                seguir=True
+>>>>>>> Stashed changes
             except ValueError:
                 print("La opción indicada no es un número")
                 opcion= input("Ingrese su opcion otra vez: ")
                 seguir=True
-menu([["Oso Polar", "Título", "URL", "Resumen", []], ["Jirafa Reticulada", "Título", "URL","Resumen", []]])
+menu()

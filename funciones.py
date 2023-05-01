@@ -1,6 +1,12 @@
 import random
 import wikipedia
+<<<<<<< Updated upstream
 
+=======
+import archivos
+import re
+from bs4 import BeautifulSoup
+>>>>>>> Stashed changes
 
 def agregarAnimales(pLista,pNumero):
     animales=random.choices(pLista,k=pNumero)
@@ -17,8 +23,9 @@ def agregarAnimales(pLista,pNumero):
     print(animales)
     return animales
 
-def crearExpediente(pLista):
+def crearExpediente(pLista,opcion):
     wikipedia.set_lang("es")
+<<<<<<< Updated upstream
     for i in pLista:
         busqueda = i
         a = wikipedia.summary(wikipedia.search(busqueda)[0])
@@ -26,6 +33,16 @@ def crearExpediente(pLista):
         print("------------------")
         print(" ")
     
+=======
+    busqueda = pLista[opcion]
+    print(busqueda)
+    a = wikipedia.page(busqueda)
+    b=re.sub(r"\[\d*\]","",wikipedia.summary(busqueda))
+    b=b.replace("\u200b", "").replace("\n","")
+    lista=[pLista[opcion],a.title, a.url,b]
+    pLista[opcion]=lista
+    return pLista
+>>>>>>> Stashed changes
 
 def registrarAnotacion(pAnimal, pAnotacion):
     """
