@@ -119,7 +119,7 @@ def ESApartarAnimal(pAnimales):
     verificacion=validarBin(input("Esta seguro de que quiere generar este cambio?:\n1. Sí\n2. No\nOpción: "))
     if verificacion:
         animales=funciones.apartarAnimal(pAnimales,int(capacidad))
-        animales=funciones.apartarAnimal(pAnimales,int(capacidad))
+        #animales=funciones.apartarAnimal(pAnimales,int(capacidad))
         print("La lista de los animales actualizada es: ")
         i=0
         num=1
