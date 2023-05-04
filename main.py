@@ -17,7 +17,7 @@ import funciones
 import archivos
 
 def leerArchivo():
-    referencia = open("test.txt","r")
+    referencia = open("test1.txt","r")
     print("->Imprime todo el archivo...")
     lista = referencia.readlines()
     lista=[elemento.replace("\n", "")for elemento in lista]
@@ -65,7 +65,22 @@ def ESAgregarAnimales(pLista):
     return lista
 
 def ESCrearExpediente(pLista):
-    funciones.crearExpediente(pLista)
+    i=0
+    num=1
+    while i<len(pLista):
+        print (f"{num}. {pLista[i]}")
+        i+=1
+        num+=1
+    opcion=input("Ingrese el numero de animal a generar el expediente")
+    listaAnimal,pLista=funciones.crearExpediente(pLista,int(opcion)-1)
+    print(
+            "\n"
+            f"Nombre: {listaAnimal[0]} \n"
+            f"Nombre cientifico: {listaAnimal[1]}\n"
+            f"Datos: {listaAnimal[3]}\n"
+            f"Fuente: {listaAnimal[2]}\n"
+        )
+    return pLista
 
 def ESRegistrarAnotaciones(pAnimales):
 
@@ -107,13 +122,23 @@ def ESExportarDB(pAnimales):
     print("Se exportó la base de datos existosamente")
     return pAnimales
 
-def menu(pMatriz):
+def ESExportarDB(pAnimales):
+    """
+    Funcionalidad: Muestra interfaz para que el usuario pueda registrar anotaciones para un animal
+    Entradas:
+    -animales(list): Matriz de animales registrados
+    Salidas:
+    -animales(list): Matriz de animales registrados ahora con la nueva anotación
+    """
+
+def menu():
     """
     Funcionalidad: Muestra menú principal
     Entradas:
     -pMatriz(list): La matriz a analizar
     Salidas:NA
     """
+    lista=[]
     while True:
         print(
             "\n"
@@ -142,4 +167,4 @@ def menu(pMatriz):
                 print("La opción indicada no es un número")
                 opcion= input("Ingrese su opcion otra vez: ")
                 seguir=True
-menu([["Oso Polar", "Título", "URL", "Resumen", []], ["Jirafa Reticulada", "Título", "URL","Resumen", []]])
+menu()

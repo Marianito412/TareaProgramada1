@@ -1,6 +1,7 @@
 import random
 import wikipedia
 import archivos
+import re
 
 def agregarAnimales(pLista,pNumero):
     animales=random.choices(pLista,k=pNumero)
@@ -17,14 +18,16 @@ def agregarAnimales(pLista,pNumero):
     print(animales)
     return animales
 
-def crearExpediente(pLista):
+def crearExpediente(pLista,opcion):
     wikipedia.set_lang("es")
-    for i in pLista:
-        busqueda = i
-        a = wikipedia.summary(wikipedia.search(busqueda)[0])
-        print(a)
-        print("------------------")
-        print(" ")
+    busqueda=wikipedia.search(pLista[opcion])[0]
+    a = wikipedia.page(busqueda,auto_suggest=False)
+    b=re.sub(r"\[\d*\]","",a.summary)
+    b=b.replace("\u200b", "").replace("\n","")
+    anotaciones=[]
+    listaAnimal=[pLista[opcion],a.title, a.url,b,anotaciones]
+    pLista[opcion]=listaAnimal
+    return listaAnimal,pLista
 
 def registrarAnotacion(pAnimal, pAnotacion):
     """
