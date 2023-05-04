@@ -41,6 +41,23 @@ def registrarAnotacion(pAnimal, pAnotacion):
     pAnimal[-1].append(pAnotacion)
     return pAnimal
 
+def apartarAnimal(pAnimales,pCapacidad):
+    animales=random.choices(pAnimales,k=pCapacidad)
+    animalesTotales=[]
+    while len(animalesTotales)<pCapacidad:
+        cuenta=0
+        i=0
+        while i<=pCapacidad-1:
+            if animales.count(animales[i])==1 and animales[i] not in animalesTotales:
+                animalesTotales.append(animales[i])
+                i+=1
+            else:
+                animales.remove(animales[i])
+                animales.append(random.choices(pAnimales,k=1)[0])
+                i=0
+    print(animalesTotales)
+    return animalesTotales
+
 def crearTag(pEtiqueta, pContenido, pAtributo=""):
     """
     Funcionalidad: Crea un string con formato xml válido
@@ -100,3 +117,4 @@ def generarHTML(pAnimales):
 if __name__=="__main__":
     print(crearTag("book", crearTag("title", "Cool", pAtributo="isbn ='123123'")+"\n"+crearTag("author", "Me")))
     archivos.guardarTexto("test2", ".xml", generarXML([["Oso Polar", "Titulo", "URL", "Resumen", ["test", "anotacion2"]], ["Jirafa Reticulada", "Titulo", "URL","Resumen", ["anotacion"]]]))
+

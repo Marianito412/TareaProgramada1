@@ -65,14 +65,25 @@ def ESAgregarAnimales(pLista):
     lista=funciones.agregarAnimales(leerArchivo(),int(pNumero))
     return lista
 
+def AUXESCrearExpediente(pOpcion):
+    if isinstance(pOpcion,list):
+        return True
+    return False
+
 def ESCrearExpediente(pLista):
     i=0
     num=1
     while i<len(pLista):
-        print (f"{num}. {pLista[i]}")
+        if isinstance(pLista[i],list):
+            print (f"{num}. {pLista[i][0]}")
+        else:
+            print (f"{num}. {pLista[i]}")
         i+=1
         num+=1
     opcion=input("Ingrese el numero de animal a generar el expediente")
+    if AUXESCrearExpediente(pLista[int(opcion)-1]):
+        print("El animal seleccionado ya tiene un expediente")
+        return pLista
     listaAnimal,pLista=funciones.crearExpediente(pLista,int(opcion)-1)
     print(
             "\n"
@@ -109,6 +120,38 @@ def ESRegistrarAnotaciones(pAnimales):
         except IndexError:
             print(f"Opción inválida ingrese un número del 1 al {len(pAnimales)}")
     return pAnimales
+
+def AUXApartarAnimal(pAnimales,pCantidad):
+    while True:
+            try:
+                if len(pAnimales)>int(pCantidad):
+                    return pCantidad
+                else:
+                    pCantidad=input(f"El zoologico solo tiene {len(pAnimales)} animales por lo que es menor a la capacidad ingresada, vuelvalo a intentar: ")
+            except ValueError:
+                pCantidad=input("Se espera un numero, vuelva a intentar: ")
+
+def ESApartarAnimal(pAnimales):
+    print("si")
+    capacidad=input("Ingrese el numero de animales que el zoologico puede contener: ")
+    capacidad=AUXApartarAnimal(pAnimales,capacidad)
+    verificacion=validarBin(input("Esta seguro de que quiere generar este cambio?:\n1. Sí\n2. No\nOpción: "))
+    if verificacion:
+        animales=funciones.apartarAnimal(pAnimales,int(capacidad))
+        #animales=funciones.apartarAnimal(pAnimales,int(capacidad))
+        print("La lista de los animales actualizada es: ")
+        i=0
+        num=1
+        while i<len(animales):
+            if isinstance(animales[i],list):
+                print (f"{num}. {animales[i][0]}")
+            else:
+                print (f"{num}. {animales[i]}")
+            i+=1
+            num+=1
+        return animales
+    else:
+        return pAnimales
 
 def ESExportarDB(pAnimales):
     """
@@ -160,9 +203,10 @@ def menu():
             try:
                 seguir=False
                 opcion = int(opcion)
-                opciones = [ESAgregarAnimales ,ESCrearExpediente, ESRegistrarAnotaciones,..., ESExportarDB, ESMostrarDB, exit] #Registrar nuevas funcionalidades acá
                 #print(pMatriz)
+                opciones = [ESAgregarAnimales ,ESCrearExpediente, ESRegistrarAnotaciones,ESApartarAnimal, ESExportarDB, exit] #Registrar nuevas funcionalidades acá
                 lista = opciones[opcion-1](lista)
+                
             except IndexError:
                 print("La opción indicada no es correcta, debe de ser un número del 1 al 5")
                 opcion= input("Ingrese su opcion otra vez: ")
