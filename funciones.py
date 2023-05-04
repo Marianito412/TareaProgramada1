@@ -73,7 +73,30 @@ def generarXML(pAnimales):
         infoAnimal+=anotaciones
         xml += crearTag("Animal", infoAnimal, pAtributo=f"Nombre = '{animal[0]}'")+"\n"
     return crearTag("Zoologico", xml)
-        
+
+def generarHTML(pAnimales):
+    """
+    Funcionalidad: Exporta la base de datos a .html
+    Entradas:
+    -pAnimales(list): La base de datos a guardar
+    Salidas:
+    -return(str): El html generado
+    """
+    html=""
+    plantilla = archivos.cargarTexto("static/index", ".html")
+    for animal in pAnimales:
+        infoAnimal = ""
+        for valor in animal[:len(animal)-1]:
+            infoAnimal+=crearTag("td", valor)+"\n"
+        anotaciones=""
+        for num, anotacion in enumerate(animal[-1]):
+            anotaciones+= crearTag("Anotacion", anotacion, pAtributo=f"indice={num}")+"\n"
+        anotaciones = crearTag("td", anotaciones)
+        infoAnimal+=anotaciones
+        html += crearTag("tr", infoAnimal, pAtributo=f"Nombre = '{animal[0]}'")+"\n"
+    #html = crearTag("table", html)
+    return plantilla.format(test=html)
+
 if __name__=="__main__":
     print(crearTag("book", crearTag("title", "Cool", pAtributo="isbn ='123123'")+"\n"+crearTag("author", "Me")))
     archivos.guardarTexto("test2", ".xml", generarXML([["Oso Polar", "Titulo", "URL", "Resumen", ["test", "anotacion2"]], ["Jirafa Reticulada", "Titulo", "URL","Resumen", ["anotacion"]]]))

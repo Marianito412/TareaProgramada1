@@ -9,7 +9,7 @@ def guardarTexto(pNombre, pExtension, pContenido):
     -pContenido(str): El texto a guardar en el archivo
     Salidas:NA
     """
-    with open(f"{pNombre}{pExtension}", "w") as archivo:
+    with open(f"{pNombre}{pExtension}", "w", encoding="utf-8") as archivo:
         archivo.write(pContenido)
 
 def cargarTexto(pNombre, pExtension):
@@ -21,7 +21,7 @@ def cargarTexto(pNombre, pExtension):
     Salidas:
     -contenido(str): El contenido del archivo
     """
-    with open(f"{pNombre}{pExtension}", "r") as archivo:
+    with open(f"{pNombre}{pExtension}", "r", encoding="utf-8") as archivo:
         contenido=archivo.read()
     return contenido
 

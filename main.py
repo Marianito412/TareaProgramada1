@@ -15,6 +15,7 @@ import wikipedia
 import re
 import funciones
 import archivos
+from datetime import datetime
 
 def leerArchivo():
     referencia = open("test1.txt","r")
@@ -111,9 +112,9 @@ def ESRegistrarAnotaciones(pAnimales):
 
 def ESExportarDB(pAnimales):
     """
-    Funcionalidad: Muestra interfaz para que el usuario pueda registrar anotaciones para un animal
+    Funcionalidad: Solicita el nombre de un archivo y delega la generación de un archivo .xml con la información de la base de datos
     Entradas:
-    -animales(list): Matriz de animales registrados
+    -pAnimales(list): Matriz de animales registrados
     Salidas:
     -pAnimales(list): Matriz de animales registrados
     """
@@ -122,14 +123,17 @@ def ESExportarDB(pAnimales):
     print("Se exportó la base de datos existosamente")
     return pAnimales
 
-def ESExportarDB(pAnimales):
+def ESMostrarDB(pAnimales):
     """
-    Funcionalidad: Muestra interfaz para que el usuario pueda registrar anotaciones para un animal
+    Funcionalidad: Genera y muestra una tabla HTML con la información de la base de datos
     Entradas:
     -animales(list): Matriz de animales registrados
     Salidas:
-    -animales(list): Matriz de animales registrados ahora con la nueva anotación
+    -pAnimales(list): Matriz de animales registrados
     """
+    archivo = datetime.now().strftime("%d-%m-%Y-%H-%M")
+    archivos.guardarTexto(archivo, ".html", funciones.generarHTML(pAnimales))
+    return pAnimales
 
 def menu():
     """
@@ -156,9 +160,9 @@ def menu():
             try:
                 seguir=False
                 opcion = int(opcion)
-                opciones = [ESAgregarAnimales ,ESCrearExpediente, ESRegistrarAnotaciones,..., ESExportarDB, exit] #Registrar nuevas funcionalidades acá
+                opciones = [ESAgregarAnimales ,ESCrearExpediente, ESRegistrarAnotaciones,..., ESExportarDB, ESMostrarDB, exit] #Registrar nuevas funcionalidades acá
                 #print(pMatriz)
-                pMatriz = opciones[opcion-1](pMatriz)
+                lista = opciones[opcion-1](lista)
             except IndexError:
                 print("La opción indicada no es correcta, debe de ser un número del 1 al 5")
                 opcion= input("Ingrese su opcion otra vez: ")
