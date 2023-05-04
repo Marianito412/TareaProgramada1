@@ -44,21 +44,20 @@ def registrarAnotacion(pAnimal, pAnotacion):
 
 def apartarAnimal(pAnimales,pCapacidad):
     animales=random.choices(pAnimales,k=pCapacidad)
-    for i in animales:
-        if lista.count(i)>1:
-            lista.remove(i)
-    while len(set(animales))<pCapacidad:
+    animalesTotales=[]
+    while len(animalesTotales)<pCapacidad:
         cuenta=0
         i=0
         while i<=pCapacidad-1:
-            if animales.count(animales[i])==1:
+            if animales.count(animales[i])==1 and animales[i] not in animalesTotales:
+                animalesTotales.append(animales[i])
                 i+=1
             else:
                 animales.remove(animales[i])
                 animales.append(random.choices(pAnimales,k=1)[0])
                 i=0
-    print(animales)
-    return animales
+    print(animalesTotales)
+    return animalesTotales
 
 def crearTag(pEtiqueta, pContenido, pAtributo=""):
     """

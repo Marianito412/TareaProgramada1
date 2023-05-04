@@ -113,13 +113,26 @@ def AUXApartarAnimal(pAnimales,pCantidad):
                 pCantidad=input("Se espera un numero, vuelva a intentar: ")
 
 def ESApartarAnimal(pAnimales):
+    print("si")
     capacidad=input("Ingrese el numero de animales que el zoologico puede contener: ")
     capacidad=AUXApartarAnimal(pAnimales,capacidad)
-    verificacion=input("Esta seguro de que quiere generar este cambio?:\n1. Sí\n2. No\nOpción: ")
-    verifiacion=validarBin(verificacion)
-    animales=funciones.apartarAnimal(pAnimales,int(capacidad))
-    print(f"La lista de los animales actualizada es: {animales}")
-    return animales
+    verificacion=validarBin(input("Esta seguro de que quiere generar este cambio?:\n1. Sí\n2. No\nOpción: "))
+    if verificacion:
+        animales=funciones.apartarAnimal(pAnimales,int(capacidad))
+        animales=funciones.apartarAnimal(pAnimales,int(capacidad))
+        print("La lista de los animales actualizada es: ")
+        i=0
+        num=1
+        while i<len(animales):
+            if isinstance(animales[i],list):
+                print (f"{num}. {animales[i][0]}")
+            else:
+                print (f"{num}. {animales[i]}")
+            i+=1
+            num+=1
+        return animales
+    else:
+        return pAnimales
 
 def ESExportarDB(pAnimales):
     """
