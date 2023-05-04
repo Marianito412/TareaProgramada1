@@ -43,11 +43,13 @@ def registrarAnotacion(pAnimal, pAnotacion):
     return pAnimal
 
 def apartarAnimal(pAnimales,pCapacidad):
-    animales=random.choices(pAnimales,k=pCapacidad)
-    for i in animales:
-        if lista.count(i)>1:
-            lista.remove(i)
-    while len(set(animales))<pCapacidad:
+    animalesSucio=random.choices(pAnimales,k=pCapacidad)
+    animales = []
+    [animales.append(i) for i in animalesSucio if i not in animales]
+    #for i in animales:
+    #    if lista.count(i)>1:
+    #        lista.remove(i)
+    while len(animales)<pCapacidad:
         cuenta=0
         i=0
         while i<=pCapacidad-1:
