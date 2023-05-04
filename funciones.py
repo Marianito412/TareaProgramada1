@@ -42,6 +42,24 @@ def registrarAnotacion(pAnimal, pAnotacion):
     pAnimal[-1].append(pAnotacion)
     return pAnimal
 
+def apartarAnimal(pAnimales,pCapacidad):
+    animales=random.choices(pAnimales,k=pCapacidad)
+    for i in animales:
+        if lista.count(i)>1:
+            lista.remove(i)
+    while len(set(animales))<pCapacidad:
+        cuenta=0
+        i=0
+        while i<=pCapacidad-1:
+            if animales.count(animales[i])==1:
+                i+=1
+            else:
+                animales.remove(animales[i])
+                animales.append(random.choices(pAnimales,k=1)[0])
+                i=0
+    print(animales)
+    return animales
+
 def crearTag(pEtiqueta, pContenido, pAtributo=""):
     """
     Funcionalidad: Crea un string con formato xml válido
@@ -52,17 +70,17 @@ def crearTag(pEtiqueta, pContenido, pAtributo=""):
     """
     return f"<{pEtiqueta} {pAtributo}>\n\t{pContenido}\n</{pEtiqueta}>"
 
-def generarXML(pAnimales):
-    xml = ""
-    for animal in pAnimales:
-        infoAnimal = ""
-        atributos = ["Nombre", "Título", "URL", "Resumen"]
-        for atributo, valor in zip(atributos, animal):
-            infoAnimal+=crearTag(atributo, valor)
-        xml += crearTag("Animal", infoAnimal, pAtributo=f"Nombre = '{animal[0]}'")
-    return xml
+##def generarXML(pAnimales):
+##    xml = ""
+##    for animal in pAnimales:
+##        infoAnimal = ""
+##        atributos = ["Nombre", "Título", "URL", "Resumen"]
+##        for atributo, valor in zip(atributos, animal):
+##            infoAnimal+=crearTag(atributo, valor)
+##        xml += crearTag("Animal", infoAnimal, pAtributo=f"Nombre = '{animal[0]}'")
+##    return xml
         
-if __name__=="__main__":
-    print(crearTag("book", crearTag("title", "Cool", pAtributo="isbn ='123123'")+"\n"+crearTag("author", "Me")))
-
-archivos.guardarXML("test2", generarXML([["Oso Polar", "Titulo", "URL", "Resumen", []], ["Jirafa Reticulada", "Titulo", "URL","Resumen", []]]))
+##if __name__=="__main__":
+##    print(crearTag("book", crearTag("title", "Cool", pAtributo="isbn ='123123'")+"\n"+crearTag("author", "Me")))
+##
+##archivos.guardarXML("test2", generarXML([["Oso Polar", "Titulo", "URL", "Resumen", []], ["Jirafa Reticulada", "Titulo", "URL","Resumen", []]]))
