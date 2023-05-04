@@ -46,19 +46,31 @@ def crearTag(pEtiqueta, pContenido, pAtributo=""):
     -pContenido(str): El contenido de esa etiqueta
     -pAtributo(str): Cualquier atributo deseado
     """
+    pContenido = pContenido.replace("\n", "\n\t")
     return f"<{pEtiqueta} {pAtributo}>\n\t{pContenido}\n</{pEtiqueta}>"
 
 def generarXML(pAnimales):
+    """
+    Funcionalidad: Exporta la base de datos a .xml
+    Entradas:
+    -pAnimales(list): La base de datos a guardar
+    Salidas:
+    -return(str): El xml generado
+    """
     xml = ""
     for animal in pAnimales:
         infoAnimal = ""
-        atributos = ["Nombre", "Título", "URL", "Resumen"]
+        atributos = ["Nombre", "Titulo", "URL", "Resumen"]
         for atributo, valor in zip(atributos, animal):
-            infoAnimal+=crearTag(atributo, valor)
-        xml += crearTag("Animal", infoAnimal, pAtributo=f"Nombre = '{animal[0]}'")
-    return xml
+            infoAnimal+=crearTag(atributo, valor)+"\n"
+        anotaciones=""
+        for num, anotacion in enumerate(animal[-1]):
+            anotaciones+= crearTag("Anotacion", anotacion, pAtributo=f"indice={num}")+"\n"
+        anotaciones = crearTag("Anotaciones", anotaciones)
+        infoAnimal+=anotaciones
+        xml += crearTag("Animal", infoAnimal, pAtributo=f"Nombre = '{animal[0]}'")+"\n"
+    return crearTag("Zoologico", xml)
         
 if __name__=="__main__":
     print(crearTag("book", crearTag("title", "Cool", pAtributo="isbn ='123123'")+"\n"+crearTag("author", "Me")))
-
-archivos.guardarXML("test2", generarXML([["Oso Polar", "Titulo", "URL", "Resumen", []], ["Jirafa Reticulada", "Titulo", "URL","Resumen", []]]))
+    archivos.guardarTexto("test2", ".xml", generarXML([["Oso Polar", "Titulo", "URL", "Resumen", ["test", "anotacion2"]], ["Jirafa Reticulada", "Titulo", "URL","Resumen", ["anotacion"]]]))

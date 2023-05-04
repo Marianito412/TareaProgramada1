@@ -12,8 +12,9 @@ import wikipedia
 #a = wikipedia.page("Oso panda")
 #print(a.title, a.url, a.images[0])
 #
-
+import re
 import funciones
+import archivos
 
 def leerArchivo():
     referencia = open("test.txt","r")
@@ -40,6 +41,23 @@ def validarBin(pEntrada):
                 pEntrada = input("Entrada incorrecta se espera un 1 o 2, vuelva a intentar:\n1. Sí\n2. No\nOpción: ")
         except ValueError:
             pEntrada = input("Entrada incorrecta se espera un 1 o 2, vuelva a intentar:\n1. Sí\n2. No\nOpción: ")
+
+def validarArchivo(pNombre, pExtension):
+    """
+    Funcionalidad: Valida si un nombre dado servirá para guardar un archivo
+    -pNombre(str): El nombre del archivo que se desea generar
+    -pExtension(str): La extensión del archivo que se desea generar
+    Salidas:
+    pNombre(str): El nombre del archivo si pasa todas las validaciones
+    """
+    while True:
+        if re.match("^[\w\-. ]+$", pNombre+pExtension):
+            if not archivos.esValido(pNombre+pExtension):
+                return pNombre
+            else:
+                pNombre = input("El archivo indicado ya existe\nIntente de nuevo:")
+        else:
+            pNombre = input("Nombre inválido evite :,|,\\,/,<,>,?,*,\"\nIntente de nuevo: ")
 
 def ESAgregarAnimales(pLista):
     pNumero=input("Ingrese la cantidad de animales que desea añadir a su zoologico: ")
@@ -82,8 +100,12 @@ def ESExportarDB(pAnimales):
     Entradas:
     -animales(list): Matriz de animales registrados
     Salidas:
-    -animales(list): Matriz de animales registrados ahora con la nueva anotación
+    -pAnimales(list): Matriz de animales registrados
     """
+    archivo = validarArchivo(input("Ingrese el nombre del archívo a generar: "), ".xml")
+    archivos.guardarTexto(archivo, ".xml", funciones.generarXML(pAnimales))
+    print("Se exportó la base de datos existosamente")
+    return pAnimales
 
 def menu(pMatriz):
     """
