@@ -3,7 +3,16 @@ import wikipedia
 import archivos
 import re
 from os import system
+
 def agregarAnimales(pLista,pNumero):
+    """
+    Funcionalidad: Esta función agrega una cantidad específica de animales a partir de la lista de animales dada.
+    Entradas:
+    -pLista(list): Una lista que contiene los animales disponibles para seleccionar.
+    -pNumero(int): Un entero que indica la cantidad de animales que se deben agregar.
+    Salidas:
+    -animales: Una lista que contiene los animales seleccionados y agregados.
+    """
     animales=random.choices(pLista,k=pNumero)
     while len(set(animales))<pNumero:
         i=0
@@ -18,6 +27,15 @@ def agregarAnimales(pLista,pNumero):
     return animales
 
 def crearExpediente(pLista,opcion):
+    """
+    Funcionalidad: Crea un expediente para un animal específico del zoológico.
+    Entradas:
+    -pLista(list): Una lista que contiene los animales para los cuales se va a crear el expediente.
+    -opcion(int): Un entero que indica la posición del animal en la lista "pLista" para el cual se va a crear el expediente.
+    Salidas:
+    -listaAnimal: El expediente del animal seleccionado.
+    -pLista: La lista actualizada con la información del expediente.
+    """
     wikipedia.set_lang("es")
     busqueda=wikipedia.search(pLista[opcion])[0]
     a = wikipedia.page(busqueda,auto_suggest=False)
@@ -43,6 +61,14 @@ def registrarAnotacion(pAnimal, pAnotacion):
     return pAnimal
 
 def apartarAnimal(pAnimales,pCapacidad):
+    """
+    Funcionalidad: Apartar una cantidad específica de animales del zoológico
+    Entradas:
+    -pAnimales(list): Una lista que contiene los animales disponibles para seleccionar.
+    -pCapacidad(int): La cantidad de animales que se deben apartar.
+    Salidas:
+    -animalesTotales(list): Una lista que contiene los animales apartados.
+    """
     animales=random.choices(pAnimales,k=pCapacidad)
     animalesTotales=[]
     while len(animalesTotales)<pCapacidad:

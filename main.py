@@ -50,16 +50,37 @@ def validarArchivo(pNombre, pExtension):
             pNombre = input("Nombre inválido evite :,|,\\,/,<,>,?,*,\"\nIntente de nuevo: ")
 
 def ESAgregarAnimales(pLista):
+    """
+    Funcionalidad: Permite al usuario agregar una cantidad de animales a un zoológico.
+    Entradas:
+    -pLista(list): Lista que contiene información sobre los animales existentes en el zoológico.
+    Salida:
+    -lista(list): Lista actualizada que contiene la información de los animales después de agregar la cantidad especificada por el usuario.
+    """
     pNumero=input("Ingrese la cantidad de animales que desea añadir a su zoologico: ")
     lista=funciones.agregarAnimales(leerArchivo(),int(pNumero))
     return lista
 
 def AUXESCrearExpediente(pOpcion):
+    """
+    Funcionalidad: Esta función verifica si el parámetro de entrada "pOpcion" es una lista. Si es así, devuelve True, de lo contrario, devuelve False.
+    Entradas:
+    -pOpcion(list): El parámetro de entrada que se verifica para determinar si es una lista.
+    Salida:
+    -return(bool): Si el parámetro de entrada "pOpcion" es una lista.
+    """
     if isinstance(pOpcion,list):
         return True
     return False
 
 def ESCrearExpediente(pLista):
+    """
+    Funcionalidad: Crea un expediente para un animal seleccionado de una lista de animales.
+    Entradas:
+    -pLista(list): Una lista que contiene información sobre los animales.
+    Salida:
+    -pLista(list): La lista actualizada que puede contener modificaciones realizadas durante la creación del expediente.
+    """
     i=0
     num=1
     while i<len(pLista):
@@ -84,7 +105,6 @@ def ESCrearExpediente(pLista):
     return pLista
 
 def ESRegistrarAnotaciones(pAnimales):
-
     """
     Funcionalidad: Muestra interfaz para que el usuario pueda registrar anotaciones para un animal
     Entradas:
@@ -111,6 +131,14 @@ def ESRegistrarAnotaciones(pAnimales):
     return pAnimales
 
 def AUXApartarAnimal(pAnimales,pCantidad):
+    """
+    Funcionalidad: Valida si la cantidad de animales que se desea apartar es menor que la cantidad de animales disponibles en una lista.
+    Entradas:
+    -pAnimales(list): Una lista que contiene los animales disponibles.
+    -pCantidad(int): La cantidad de animales que se desea apartar.
+    Salida:
+    -pCantidad:(int) La cantidad de animales válida
+    """
     while True:
             try:
                 if len(pAnimales)>int(pCantidad):
@@ -121,6 +149,13 @@ def AUXApartarAnimal(pAnimales,pCantidad):
                 pCantidad=input("Se espera un numero, vuelva a intentar: ")
 
 def ESApartarAnimal(pAnimales):
+    """
+    Funcionalidad: Apartar una cierta cantidad de animales de una lista de animales del zoológico.
+    Entradas:
+    -pAnimales(list): Una lista que contiene los animales disponibles en el zoológico.
+    Salidas:
+    -animales(list): La lista actualizada de animales después del apartado.
+    """
     print("si")
     capacidad=input("Ingrese el numero de animales que el zoologico puede contener: ")
     capacidad=AUXApartarAnimal(pAnimales,capacidad)
@@ -168,7 +203,14 @@ def ESMostrarDB(pAnimales):
     print("Se generó exitosamente el html de la página")
     return pAnimales
 
-def lee ():
+def ESLee():
+    """
+    Funcionalidad: Permite al usuario zoológico.
+    Entradas: NA
+    Salidas:
+    -lista(list): Una lista que contiene los datos leídos del archivo.
+    -nomArchLeer(str): El nombre del archivo ingresado por el usuario.
+    """
     nomArchLeer=input("Ingrese el nombre del zoologico: ")
     lista=[]
     try:
@@ -182,17 +224,32 @@ def lee ():
     return lista, nomArchLeer
 
 def ESCargarArchivo():
+    """
+    Funcionalidad: Carga un archivo de un zoológico existente o crear uno nuevo.
+    Entradas: NA
+    Salidas:
+    -lista(list): Una lista que contiene los datos del zoológico cargado o creados.
+    -nombre(str): El nombre del zoológico cargado o creado.
+    """
     lista = []
     cargar = validarBin(input("Desea cargar un zoológico existente?\n1. Sí\n2. No\n"))
     if cargar:
-        lista, nombre = lee()
+        lista, nombre = ESLee()
     else:
         nombre=input("Ingrese el nombre de su nuevo zoológico: ")
     return lista, nombre
 
 def ESSalir(pMatriz):
+    """
+    Funcionalidad: Muestra un mensaje y se sale del programa
+    Entradas:
+    -pMatriz(list): La matriz del zoológico
+    Salidas: NA
+    """
     print("Frase cute")
     exit()
+    return pMatriz
+
 def menu():
     """
     Funcionalidad: Muestra menú principal
