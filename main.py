@@ -1,21 +1,10 @@
-
-
-import wikipedia
-#wikipedia.set_lang("es")
-#busqueda = "Oso panda"
-#try:
-#    a = wikipedia.summary(wikipedia.search(busqueda)[0])
-#except wikipedia.exceptions.DisambiguationError as f:
-#    lista = f.options[0]
-#    print(lista)
-#    #a = wikipedia.summary(lista)
-#a = wikipedia.page("Oso panda")
-#print(a.title, a.url, a.images[0])
-#
 import re
 import funciones
 import archivos
+import os
 from datetime import datetime
+import pickle
+import time
 
 def leerArchivo():
     referencia = open("test1.txt","r")
@@ -80,7 +69,7 @@ def ESCrearExpediente(pLista):
             print (f"{num}. {pLista[i]}")
         i+=1
         num+=1
-    opcion=input("Ingrese el numero de animal a generar el expediente")
+    opcion=input("Ingrese el numero de animal a generar el expediente: ")
     if AUXESCrearExpediente(pLista[int(opcion)-1]):
         print("El animal seleccionado ya tiene un expediente")
         return pLista
@@ -104,21 +93,21 @@ def ESRegistrarAnotaciones(pAnimales):
     -animales(list): Matriz de animales registrados ahora con la nueva anotación
     """
     while True:
-        for indice, animal in enumerate(pAnimales):
-            print(f"{indice+1}. {animal[0]}")
+        for indice, animal in enumerate([animal for animal in pAnimales if isinstance(animal, list)]):
+            print (f"{indice+1}. {animal[0]}")
         try:
             eleccion = int(input("Escoja en qué animal desea registrar una nueva anotación: "))-1
             anotacion = input(f"Ingrese la nueva anotación para {pAnimales[eleccion][0]}:\n")
             pAnimales[eleccion] = funciones.registrarAnotacion(pAnimales[eleccion], anotacion)
             print("\nAnotaciones Registradas\n")
             for indice, anotacion in enumerate(pAnimales[eleccion][-1]): # Se asume que solo se necesita mostrar las anotaciones del animal relevante (basado en la elección del usuario)
-                print(f"{indice+1} {anotacion}")
+                print (f"{indice}. {anotacion}")
             if not validarBin(input("Desea registrar una nueva anotación?\n1. Sí\n2. No\nOpción: ")):
                 break
         except ValueError:
-            print(f"Opción inválida ingrese un número del 1 al {len(pAnimales)}")
+            print(f"Opción inválida ingrese un número del 1 al {len([animal for animal in pAnimales if isinstance(animal, list)])}")
         except IndexError:
-            print(f"Opción inválida ingrese un número del 1 al {len(pAnimales)}")
+            print(f"Opción inválida ingrese un número del 1 al {len([animal for animal in pAnimales if isinstance(animal, list)])}")
     return pAnimales
 
 def AUXApartarAnimal(pAnimales,pCantidad):
@@ -176,8 +165,34 @@ def ESMostrarDB(pAnimales):
     """
     archivo = datetime.now().strftime("%d-%m-%Y-%H-%M")
     archivos.guardarTexto(archivo, ".html", funciones.generarHTML(pAnimales))
+    print("Se generó exitosamente el html de la página")
     return pAnimales
 
+def lee ():
+    nomArchLeer=input("Ingrese el nombre del zoologico: ")
+    lista=[]
+    try:
+        f=open(nomArchLeer,"rb")
+        print("2. Voy a leer el archivo: ", nomArchLeer)
+        lista = pickle.load(f)
+        print("2. Voy a cerrar el archivo: ", nomArchLeer)
+        f.close()
+    except:
+        print("El archivo no existe ", nomArchLeer)
+    return lista, nomArchLeer
+
+def ESCargarArchivo():
+    lista = []
+    cargar = validarBin(input("Desea cargar un zoológico existente?\n1. Sí\n2. No\n"))
+    if cargar:
+        lista, nombre = lee()
+    else:
+        nombre=input("Ingrese el nombre de su nuevo zoológico: ")
+    return lista, nombre
+
+def ESSalir(pMatriz):
+    print("Frase cute")
+    exit()
 def menu():
     """
     Funcionalidad: Muestra menú principal
@@ -185,7 +200,7 @@ def menu():
     -pMatriz(list): La matriz a analizar
     Salidas:NA
     """
-    lista=[]
+    lista, nombreZoo = ESCargarArchivo()
     while True:
         print(
             "\n"
@@ -194,7 +209,8 @@ def menu():
             "3. Registrar anotaciones\n"
             "4. Apartar animal\n"
             "5. Exportar base de datos\n"
-            "6. Mostrar base de datos"
+            "6. Mostrar base de datos\n"
+            "7. Salir\n"
         )
         
         opcion= input("Ingrese el número de su opción a elegir: ")
@@ -204,9 +220,12 @@ def menu():
                 seguir=False
                 opcion = int(opcion)
                 #print(pMatriz)
-                opciones = [ESAgregarAnimales ,ESCrearExpediente, ESRegistrarAnotaciones,ESApartarAnimal, ESExportarDB, exit] #Registrar nuevas funcionalidades acá
+                opciones = [ESAgregarAnimales ,ESCrearExpediente, ESRegistrarAnotaciones,ESApartarAnimal, ESExportarDB, ESMostrarDB, ESSalir] #Registrar nuevas funcionalidades acá
+                os.system("cls")
                 lista = opciones[opcion-1](lista)
-                
+                archivos.graba(nombreZoo, lista)
+                time.sleep(2)
+                os.system("cls")
             except IndexError:
                 print("La opción indicada no es correcta, debe de ser un número del 1 al 5")
                 opcion= input("Ingrese su opcion otra vez: ")

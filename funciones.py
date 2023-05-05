@@ -2,11 +2,10 @@ import random
 import wikipedia
 import archivos
 import re
-
+from os import system
 def agregarAnimales(pLista,pNumero):
     animales=random.choices(pLista,k=pNumero)
     while len(set(animales))<pNumero:
-        cuenta=0
         i=0
         while i<=pNumero-1:
             if animales.count(animales[i])==1:
@@ -26,7 +25,9 @@ def crearExpediente(pLista,opcion):
     b=b.replace("\u200b", "").replace("\n","")
     anotaciones=[]
     listaAnimal=[pLista[opcion],a.title, a.url,b,anotaciones]
+    system(f"start chrome {a.images[0]}")
     pLista[opcion]=listaAnimal
+
     return listaAnimal,pLista
 
 def registrarAnotacion(pAnimal, pAnotacion):
@@ -45,7 +46,6 @@ def apartarAnimal(pAnimales,pCapacidad):
     animales=random.choices(pAnimales,k=pCapacidad)
     animalesTotales=[]
     while len(animalesTotales)<pCapacidad:
-        cuenta=0
         i=0
         while i<=pCapacidad-1:
             if animales.count(animales[i])==1 and animales[i] not in animalesTotales:
@@ -79,16 +79,19 @@ def generarXML(pAnimales):
     """
     xml = ""
     for animal in pAnimales:
-        infoAnimal = ""
-        atributos = ["Nombre", "Titulo", "URL", "Resumen"]
-        for atributo, valor in zip(atributos, animal):
-            infoAnimal+=crearTag(atributo, valor)+"\n"
-        anotaciones=""
-        for num, anotacion in enumerate(animal[-1]):
-            anotaciones+= crearTag("Anotacion", anotacion, pAtributo=f"indice={num}")+"\n"
-        anotaciones = crearTag("Anotaciones", anotaciones)
-        infoAnimal+=anotaciones
-        xml += crearTag("Animal", infoAnimal, pAtributo=f"Nombre = '{animal[0]}'")+"\n"
+        if isinstance(animal, list):
+            infoAnimal = ""
+            atributos = ["Nombre", "Titulo", "URL", "Resumen"]
+            for atributo, valor in zip(atributos, animal):
+                infoAnimal+=crearTag(atributo, valor)+"\n"
+            anotaciones=""
+            for num, anotacion in enumerate(animal[-1]):
+                anotaciones+= crearTag("Anotacion", anotacion, pAtributo=f"indice={num}")+"\n"
+            anotaciones = crearTag("Anotaciones", anotaciones)
+            infoAnimal+=anotaciones
+            xml += crearTag("Animal", infoAnimal, pAtributo=f"Nombre = '{animal[0]}'")+"\n"
+        else:
+            xml+=crearTag("Animal", animal, pAtributo=f"Nombre = '{animal}'")+"\n"
     return crearTag("Zoologico", xml)
 
 def generarHTML(pAnimales):
@@ -102,15 +105,18 @@ def generarHTML(pAnimales):
     html=""
     plantilla = archivos.cargarTexto("static/index", ".html")
     for animal in pAnimales:
-        infoAnimal = ""
-        for valor in animal[:len(animal)-1]:
-            infoAnimal+=crearTag("td", valor)+"\n"
-        anotaciones=""
-        for num, anotacion in enumerate(animal[-1]):
-            anotaciones+= crearTag("Anotacion", anotacion, pAtributo=f"indice={num}")+"\n"
-        anotaciones = crearTag("td", anotaciones)
-        infoAnimal+=anotaciones
-        html += crearTag("tr", infoAnimal, pAtributo=f"Nombre = '{animal[0]}'")+"\n"
+        if isinstance(animal, list):
+            infoAnimal = ""
+            for valor in animal[:len(animal)-1]:
+                infoAnimal+=crearTag("td", valor)+"\n"
+            anotaciones=""
+            for num, anotacion in enumerate(animal[-1]):
+                anotaciones+= crearTag("Anotacion", anotacion, pAtributo=f"indice={num}")+"\n"
+            anotaciones = crearTag("td", anotaciones)
+            infoAnimal+=anotaciones
+            html += crearTag("tr", infoAnimal, pAtributo=f"Nombre = '{animal[0]}'")+"\n"
+        else:
+            html+=crearTag("tr",f"<td>{animal}</td><td>Titulo</td><td>URL</td><td>Resumen</td><td>Anotaciones</td>", pAtributo=f"Nombre = '{animal}'")+"\n"
     #html = crearTag("table", html)
     return plantilla.format(test=html)
 

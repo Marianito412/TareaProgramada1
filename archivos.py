@@ -1,4 +1,41 @@
 from os import path
+import pickle
+
+def graba(nomArchGrabar, varGuardar):
+    """
+    Funcionalidad: Graba un archivo
+    Entradas:
+    -nomArchGrabar(str): Nombre del archivo a escribir
+    -varGuardar(any): La variable a guardar
+    Salidas: NA
+    """
+    try:
+        f=open(nomArchGrabar,"wb")
+        print("1.Voy a grabar el archivo: ", nomArchGrabar)
+        pickle.dump(varGuardar,f)
+        print("1.Voy a cerrar el archivo: ", nomArchGrabar)
+        f.close()
+    except:
+        print("Error al grabar el archivo: ", nomArchGrabar)
+
+def lee (nomArchLeer):
+    #Función que lee un archivo con una lista de estudiantes
+    """
+    Funcionalidad: Lee un archivo
+    Entradas:
+    -nomArchGrabar(str): Nombre del archivo a leer
+    Salidas: NA
+    """
+    lista=[]
+    try:
+        f=open(nomArchLeer,"rb")
+        print("2. Voy a leer el archivo: ", nomArchLeer)
+        lista = pickle.load(f)
+        print("2. Voy a cerrar el archivo: ", nomArchLeer)
+        f.close()
+        return lista
+    except FileNotFoundError:
+        print("Archivo no encontrado: ", nomArchLeer)
 
 def guardarTexto(pNombre, pExtension, pContenido):
     """
