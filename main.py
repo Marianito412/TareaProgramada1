@@ -1,3 +1,9 @@
+#Elaborado por: Nicole Tatiana Parra Valverde y Mariano Soto.
+#Fecha de creacion: 18/03/2023 4:37pm
+#Ultima version:  05/05/2023 8:03pm
+#Version: 3.10.6
+
+#Importacion de bibliotecas
 import re
 import funciones
 import archivos
@@ -6,9 +12,9 @@ from datetime import datetime
 import pickle
 import time
 
+#Definición de funciones
 def leerArchivo():
-    referencia = open("test1.txt","r")
-    print("->Imprime todo el archivo...")
+    referencia = open("Animales.txt","r")
     lista = referencia.readlines()
     lista=[elemento.replace("\n", "")for elemento in lista]
     referencia.close()
@@ -51,7 +57,7 @@ def validarArchivo(pNombre, pExtension):
 
 def ESAgregarAnimales(pLista):
     """
-    Funcionalidad: Permite al usuario agregar una cantidad de animales a un zoológico.
+    Funcionalidad: Permite al usuario agregar una cantidad de animales aleatorios al zoológico.
     Entradas:
     -pLista(list): Lista que contiene información sobre los animales existentes en el zoológico.
     Salida:
@@ -59,6 +65,7 @@ def ESAgregarAnimales(pLista):
     """
     pNumero=input("Ingrese la cantidad de animales que desea añadir a su zoologico: ")
     lista=funciones.agregarAnimales(leerArchivo(),int(pNumero))
+    print(f"Se agregó exitosamente {pNumero} {'animal' if pNumero=='1' else 'animales'}")
     return lista
 
 def AUXESCrearExpediente(pOpcion):
@@ -121,7 +128,7 @@ def ESRegistrarAnotaciones(pAnimales):
             pAnimales[eleccion] = funciones.registrarAnotacion(pAnimales[eleccion], anotacion)
             print("\nAnotaciones Registradas\n")
             for indice, anotacion in enumerate(pAnimales[eleccion][-1]): # Se asume que solo se necesita mostrar las anotaciones del animal relevante (basado en la elección del usuario)
-                print (f"{indice}. {anotacion}")
+                print (f"{indice+1}. {anotacion}")
             if not validarBin(input("Desea registrar una nueva anotación?\n1. Sí\n2. No\nOpción: ")):
                 break
         except ValueError:
@@ -150,29 +157,24 @@ def AUXApartarAnimal(pAnimales,pCantidad):
 
 def ESApartarAnimal(pAnimales):
     """
-    Funcionalidad: Apartar una cierta cantidad de animales de una lista de animales del zoológico.
+    Funcionalidad: Aparta una cierta cantidad de animales de una lista de animales del zoológico.
     Entradas:
     -pAnimales(list): Una lista que contiene los animales disponibles en el zoológico.
     Salidas:
     -animales(list): La lista actualizada de animales después del apartado.
     """
-    print("si")
     capacidad=input("Ingrese el numero de animales que el zoologico puede contener: ")
     capacidad=AUXApartarAnimal(pAnimales,capacidad)
     verificacion=validarBin(input("Esta seguro de que quiere generar este cambio?:\n1. Sí\n2. No\nOpción: "))
     if verificacion:
         animales=funciones.apartarAnimal(pAnimales,int(capacidad))
-        #animales=funciones.apartarAnimal(pAnimales,int(capacidad))
         print("La lista de los animales actualizada es: ")
-        i=0
-        num=1
-        while i<len(animales):
-            if isinstance(animales[i],list):
-                print (f"{num}. {animales[i][0]}")
+        for num, animal in enumerate(animales):
+            if isinstance(animal,list):
+                print (f"{num+1}. {animal[0]}")
             else:
-                print (f"{num}. {animales[i]}")
-            i+=1
-            num+=1
+                print (f"{num+1}. {animal}")
+        print("Los animales se seleccionaron exitosamente")
         return animales
     else:
         return pAnimales
@@ -215,12 +217,11 @@ def ESLee():
     lista=[]
     try:
         f=open(nomArchLeer,"rb")
-        print("2. Voy a leer el archivo: ", nomArchLeer)
+        print("Leyendo archivo: ", nomArchLeer)
         lista = pickle.load(f)
-        print("2. Voy a cerrar el archivo: ", nomArchLeer)
         f.close()
     except:
-        print("El archivo no existe ", nomArchLeer)
+        print("El archivo no existe: ", nomArchLeer)
     return lista, nomArchLeer
 
 def ESCargarArchivo():
@@ -246,7 +247,7 @@ def ESSalir(pMatriz):
     -pMatriz(list): La matriz del zoológico
     Salidas: NA
     """
-    print("Frase cute")
+    print("Cuando desaparece una especie, desaparece un pedazo de la humanidad")
     exit()
     return pMatriz
 
@@ -258,6 +259,7 @@ def menu():
     Salidas:NA
     """
     lista, nombreZoo = ESCargarArchivo()
+    print("\n"+f"Bienvenido a {nombreZoo}".center(50, "_")+"\n")
     while True:
         print(
             "\n"
@@ -276,7 +278,6 @@ def menu():
             try:
                 seguir=False
                 opcion = int(opcion)
-                #print(pMatriz)
                 opciones = [ESAgregarAnimales ,ESCrearExpediente, ESRegistrarAnotaciones,ESApartarAnimal, ESExportarDB, ESMostrarDB, ESSalir] #Registrar nuevas funcionalidades acá
                 os.system("cls")
                 lista = opciones[opcion-1](lista)
@@ -291,4 +292,5 @@ def menu():
                 print("La opción indicada no es un número")
                 opcion= input("Ingrese su opcion otra vez: ")
                 seguir=True
+#Programa principal
 menu()

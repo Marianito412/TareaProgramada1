@@ -1,9 +1,16 @@
+#Elaborado por: Nicole Tatiana Parra Valverde y Mariano Soto.
+#Fecha de creacion: 18/03/2023 4:37pm
+#Ultima version:  05/05/2023 8:03pm
+#Version: 3.10.6
+
+#Importación de bibliotecas
 import random
 import wikipedia
 import archivos
 import re
 from os import system
 
+#Definición de funciones
 def agregarAnimales(pLista,pNumero):
     """
     Funcionalidad: Esta función agrega una cantidad específica de animales a partir de la lista de animales dada.
@@ -23,7 +30,6 @@ def agregarAnimales(pLista,pNumero):
                 animales.remove(animales[i])
                 animales.append(random.choices(pLista,k=1)[0])
                 i=0
-    print(animales)
     return animales
 
 def crearExpediente(pLista,opcion):
@@ -81,7 +87,6 @@ def apartarAnimal(pAnimales,pCapacidad):
                 animales.remove(animales[i])
                 animales.append(random.choices(pAnimales,k=1)[0])
                 i=0
-    print(animalesTotales)
     return animalesTotales
 
 def crearTag(pEtiqueta, pContenido, pAtributo=""):
@@ -143,10 +148,9 @@ def generarHTML(pAnimales):
             html += crearTag("tr", infoAnimal, pAtributo=f"Nombre = '{animal[0]}'")+"\n"
         else:
             html+=crearTag("tr",f"<td>{animal}</td><td>Titulo</td><td>URL</td><td>Resumen</td><td>Anotaciones</td>", pAtributo=f"Nombre = '{animal}'")+"\n"
-    #html = crearTag("table", html)
     return plantilla.format(test=html)
 
-if __name__=="__main__":
-    print(crearTag("book", crearTag("title", "Cool", pAtributo="isbn ='123123'")+"\n"+crearTag("author", "Me")))
-    archivos.guardarTexto("test2", ".xml", generarXML([["Oso Polar", "Titulo", "URL", "Resumen", ["test", "anotacion2"]], ["Jirafa Reticulada", "Titulo", "URL","Resumen", ["anotacion"]]]))
+#if __name__=="__main__":
+#    print(crearTag("book", crearTag("title", "Cool", pAtributo="isbn ='123123'")+"\n"+crearTag("author", "Me")))
+#    archivos.guardarTexto("test2", ".xml", generarXML([["Oso Polar", "Titulo", "URL", "Resumen", ["test", "anotacion2"]], ["Jirafa Reticulada", "Titulo", "URL","Resumen", ["anotacion"]]]))
 

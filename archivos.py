@@ -1,6 +1,13 @@
+#Elaborado por: Nicole Tatiana Parra Valverde y Mariano Soto.
+#Fecha de creacion: 18/03/2023 4:37pm
+#Ultima version:  05/05/2023 8:03pm
+#Version: 3.10.6
+
+#Importación de bibliotecas
 from os import path
 import pickle
 
+#Definición de funciones
 def graba(nomArchGrabar, varGuardar):
     """
     Funcionalidad: Graba un archivo
@@ -11,9 +18,8 @@ def graba(nomArchGrabar, varGuardar):
     """
     try:
         f=open(nomArchGrabar,"wb")
-        print("1.Voy a grabar el archivo: ", nomArchGrabar)
+        print("Grabando archivo: ", nomArchGrabar)
         pickle.dump(varGuardar,f)
-        print("1.Voy a cerrar el archivo: ", nomArchGrabar)
         f.close()
     except:
         print("Error al grabar el archivo: ", nomArchGrabar)
@@ -29,9 +35,8 @@ def lee (nomArchLeer):
     lista=[]
     try:
         f=open(nomArchLeer,"rb")
-        print("2. Voy a leer el archivo: ", nomArchLeer)
+        print("Leyendo archivo: ", nomArchLeer)
         lista = pickle.load(f)
-        print("2. Voy a cerrar el archivo: ", nomArchLeer)
         f.close()
         return lista
     except FileNotFoundError:
